@@ -1,0 +1,105 @@
+{
+  "status":"ok",
+  "message-type":"work",
+  "message-version":"1.0.0",
+  "message":
+    {
+      "indexed":
+	{
+	  "date-parts":[[2016, 10, 11]],
+	  "date-time":"2016-10-11T11:09:23Z",
+	  "timestamp":1476184163637
+	},
+      "reference-count":60,
+      "publisher":"American Association for the Advancement of Science (AAAS)",
+      "issue":"6304",
+      "content-domain":
+	{
+	  "domain":[],
+	  "crossmark-restriction":false
+	},
+      "short-container-title":["Science"],
+      "published-print":
+	{
+	  "date-parts":[[2016, 9, 9]]
+	},
+      "DOI":"10.1126\/science.aag0821",
+      "type":"journal-article",
+      "created":
+	{
+	  "date-parts":[[2016, 9, 8]],
+	  "date-time":"2016-09-08T19:07:36Z",
+	  "timestamp":1473361656000
+	},
+      "page":"1123-1129",
+      "source":"CrossRef",
+      "title":["Identification of an elaborate complex mediating postsynaptic inhibition"],
+      "prefix":"http:\/\/id.crossref.org\/prefix\/10.1126",
+      "volume":"353",
+      "author":
+	[
+	  {
+	    "affiliation":[],
+	    "family":"Uezu",
+	    "given":"A."
+	  },
+	  {
+	    "affiliation":[],
+	    "family":"Kanak",
+	    "given":"D. J."
+	  },
+	  {
+	    "affiliation":[],
+	    "family":"Bradshaw",
+	    "given":"T. W. A."
+	  },
+	  {
+	    "affiliation":[],
+	    "family":"Soderblom",
+	    "given":"E. J."
+	  },
+	  {
+	    "affiliation":[],
+	    "family":"Catavero",
+	    "given":"C. M."
+	  },
+	  {
+	    "affiliation":[],
+	    "family":"Burette",
+	    "given":"A. C."
+	  },
+	  {
+	    "affiliation":[],
+	    "family":"Weinberg",
+	    "given":"R. J."
+	  },
+	  {
+	    "affiliation":[],
+	    "family":"Soderling",
+	    "given":"S. H."
+	  }
+	],
+      "member":"http:\/\/id.crossref.org\/member\/221",
+      "published-online":
+	{
+	  "date-parts":[[2016, 9, 8]]
+	},
+      "container-title":["Science"],
+      "original-title":[],
+      "deposited":
+	{
+	  "date-parts":[[2016, 9, 27]],
+	  "date-time":"2016-09-27T20:12:26Z",
+	  "timestamp":1475007146000
+	},
+      "score":1.0,
+      "subtitle":[],
+      "short-title":[],
+      "issued":{"date-parts":[[2016, 9, 8]]
+    },
+    "URL":"http:\/\/dx.doi.org\/10.1126\/science.aag0821",
+    "ISSN":["0036-8075",
+    "1095-9203"],
+    "subject":["General"]
+  }
+}
