@@ -77,6 +77,18 @@ file_readable() {
   }
 }
 
+# SYNTAX:
+#    is_readable_dir <DIRECTORY_PATHNAME>
+is_readable_dir() {
+  args_num_test "$#" 1 1
+  
+  if [ -d "${1}" ] && [ -r "${1}" ]; then
+    return 0
+  else
+    echo "ERROR: The given directory does not exist or is not readable."
+    return 1
+  fi
+}
 
 # Remove white space from beginning and end of string
 # SYNTAX
