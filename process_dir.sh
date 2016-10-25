@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Scans a directory hierarchy for articles and processes each of them.
+
 . library_std.sh
 
 if [ "$#" -gt "0" ] && [ -e "${1}" ]; then

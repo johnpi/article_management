@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# It reads a doi string from STDIN and retrieves the corresponding BibTex record.
+
 # Usage: doi2bib.sh 10.1021/la203078w
 
 .library_std.sh
