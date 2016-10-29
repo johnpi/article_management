@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# It reads from standard input a crossref json record of an article and generates a file name for it.
+
 import sys
 import json
 import re
