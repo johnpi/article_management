@@ -15,20 +15,54 @@ Ext=".${File##*.}"
 [ "${#Ext}" -le "1" ] && Ext=""
 
 # Try to extract the doi from the file
-doi="$(./extract_doi.sh ${File})"
+doi=$(./extract_doi.sh "${File}")
+
+# If no doi was found try looking for an ISBN
+if [ -z "${doi}" ]; then
+  # Try to extract the ISBN from the file
+  isbn=$(./extract_isbn.sh "${File}")
+fi
 
 # If no doi was found exit
-if [ -z "${doi}" ]; then
-  echo "WARNING: No doi was found in the file. Skipping ${File}"
+if [ -z "${doi}" ] && [ -z "${isbn}" ]; then
+  echo "WARNING: No DOI or ISBN was found in the file. Skipping ${File}" >&2
   exit 1
 fi
 
+
+filenameonly=$(basename "${File}")
+[ -n "${doi}"  ] && echo "File: ${filenameonly} => ${doi}"  >&2
+[ -n "${isbn}" ] && echo "File: ${filenameonly} => ${isbn}" >&2
+
+[ -n "${doi}"  ] && ./doi2bib.sh "${doi}" >> collection.bib
+
 # Generate a new file name for the file complying with the form:
 # LastName_Year_Publication.Extension
-New_Filename=$(./lookup_crossref.sh "${doi}" | ./gen_filename.py) && \
-# Rename the file to comply with the form LastName_Year_Publication.Extension
-mv "${File}" "$(dirname ${File})/${New_Filename}${Ext}" && \
+[ -n "${doi}"  ] && New_Filename=$(./lookup_crossref.sh "${doi}" | ./gen_filename.py)
+if [ -z "${New_Filename}" ]; then
+  echo "WARNING: No better filename was derived. Skipping ${File}" >&2
+  exit 1
+fi
+NewFilename=$(dirname "${File}")/"${New_Filename}${Ext}"
+
+# If the filename has changed then move otherwise not to avoid error messages
+if [ "${File}" != "${NewFilename}" ]; then
+  # Make sure the new file name is unique. If not unique and both files are identical just keep one of them. Otherwise generate a unique filename.
+  file_index=1
+  while [[ -e "${File}" && -e "${NewFilename}" ]]
+  do
+    let "file_index+=1"
+    cmp "${File}" "${NewFilename}" && rm "${File}" || NewFilename=$(dirname "${File}")/"${New_Filename}_${file_index}${Ext}"
+  done
+  # Rename the file to comply with the form LastName_Year_Publication.Extension
+  [ -e "${File}" ] && mv "${File}" "${NewFilename}"
+
+  [ "$?" -ne "0" ] && { \
+    echo "ERROR: The file couldn't be renamed." >&2 ; \
+    exit 1; \
+  } || echo "INFO: Renamed: ${File} => ${NewFilename}" >&2
+fi
+
 exit 0
 
-echo "ERROR: The doi couldn't be remotely resolved or the file couldn't be renamed."
-exit 1
+

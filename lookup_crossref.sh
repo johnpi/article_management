@@ -11,3 +11,4 @@ doi=$(trim "${doi}")
 
 curl -sL "http://api.crossref.org/works/${doi}"
 
+[ "$?" -ne "0" ] && echo "The doi couldn't be remotely resolved: ${doi}" >&2
