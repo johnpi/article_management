@@ -9,7 +9,7 @@ file_readable "${1}"
 File="${1}"
 
 
-echo "Proccessing: ${File}"
+echo "Proccessing: ${File}" >&2
 
 #doi: 
 #9 SEPTEMBER 2016 · VOL 353 ISSUE 6304

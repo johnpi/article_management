@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Library of useful functions.
+
 # SYNTAX:
 #    num_in_range <NUMBER> <MIN_ACCEPTABLE> <MAX_ACCEPTABLE>
 # EXAMPLE:
@@ -12,17 +14,17 @@
 num_in_range() {
   # Check if function was invoked properly
   if [ "$#" -ne "3" ]; then
-    echo -n "ERROR: Missing arguments in function call: "
+    echo -n "ERROR: Missing arguments in function call: " >&2
     return 101
   fi
 
   [ "$1" -lt "$2" ] && { \
-    echo -n "ERROR: Missing arguments. "; \
+    echo -n "ERROR: Missing arguments. " >&2 ; \
     return 1; \
   }
   
   [ "$1" -gt "$3" ] && { \
-    echo -n "ERROR: Unexpected number of arguments. "; \
+    echo -n "ERROR: Unexpected number of arguments. " >&2 ; \
     return 2; \
   }
   
@@ -53,13 +55,13 @@ args_num_test() {
   num_in_range "${@:1:3}"
   
   case "$?" in
-    101) echo "args_num_test()."
+    101) echo "args_num_test()." >&2
 	 exit 1
 	 ;;
-      1) echo "${message}"
+      1) echo "${message}" >&2
 	 exit 1
 	 ;;
-      2) echo "${message}"
+      2) echo "${message}" >&2
 	 exit 1
 	 ;;
       0) ;;
@@ -72,7 +74,7 @@ file_readable() {
   args_num_test "$#" 1 1
   
   [ -r "${1}" ] || { \
-    echo "ERROR: The given file does not exist or is not readable."; \
+    echo "ERROR: The given file does not exist or is not readable." >&2 ; \
     exit 1; \
   }
 }
@@ -85,7 +87,7 @@ is_readable_dir() {
   if [ -d "${1}" ] && [ -r "${1}" ]; then
     return 0
   else
-    echo "ERROR: The given directory does not exist or is not readable."
+    echo "ERROR: The given directory does not exist or is not readable." >&2
     return 1
   fi
 }

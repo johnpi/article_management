@@ -10,6 +10,6 @@ else
    Directory="/"
 fi
 
-Directory="$(realpath ${Directory})"
-echo "${Directory}"
+Directory=$(realpath "${Directory}")
+echo "Processing ${Directory}" >&2
 find "${Directory}" -iname '*.pdf' -type f -exec ./process_pdf.sh '{}' \;
