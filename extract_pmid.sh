@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# It extracts a ISSN string from a PDF article if it exists.
+# It extracts a PMID string from a PDF article if it exists.
 
 . library_std.sh
 
@@ -10,7 +10,7 @@ file_readable "${1}"
 
 File="${1}"
 
-# Pages to examine for ISSN strings
+# Pages to examine for PMID strings
 first_page=1
 last_page=1
 pages_num=$(pdfinfo "${File}" | grep Pages | awk '{print $2}')
@@ -22,17 +22,17 @@ fi
 # Explanation:
 # 	pdftotext "${File}" - 
 # 	Will extract and print to the stdout (-) the text of the document considering the character encoding as being UTF8.
-issn=$(pdftotext -f "${first_page}" -l "${last_page}" "${File}" - | \
-       grep -izo '\<ISSN:\?[[:space:]]*[[:digit:]]\{4\}[-][[:digit:]]\{3\}[[:digit:]X]\>' | \
-       sed -e 's/^.*ISSN:\?[[:space:]]*//gi'                  \
+pmid=$(pdftotext -f "${first_page}" -l "${last_page}" "${File}" - | \
+       grep -izo '\<PMID:\?[[:space:]]*[[:digit:]]\{8\}\>' | \
+       sed -e 's/^.*PMID:\?[[:space:]]*//gi'                  \
            -e 's/[-]//g'                                      \
            -e '/^[[:space:]]*$/d'                           | \
        head -n 1)
 
-if [ "${#issn}" -eq "8" ]; then
-  echo "${issn}"
+if [ "${#pmid}" -eq "8" ]; then
+  echo "${pmid}"
 else
-  echo "WARNING: An ISSN number couldn't be found in the file. Skipping ${File}" >&2
+  echo "WARNING: An PMID number couldn't be found in the file. Skipping ${File}" >&2
   echo ""
 fi
 

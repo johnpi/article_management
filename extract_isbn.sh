@@ -10,7 +10,7 @@ file_readable "${1}"
 
 File="${1}"
 
-# Pages to examine for doi strings
+# Pages to examine for ISBN strings
 first_page=1
 last_page=10
 pages_num=$(pdfinfo "${File}" | grep Pages | awk '{print $2}')
@@ -23,7 +23,7 @@ fi
 # 	pdftotext "${File}" - 
 # 	Will extract and print to the stdout (-) the text of the document considering the character encoding as being UTF8.
 isbn=$(pdftotext -f "${first_page}" -l "${last_page}" "${File}" -     | \
-       grep -izo '\<ISBN:\?[[:space:]]*[-[:digit:]]\{9,\}X\?' | \
+       grep -izo '\<ISBN:\?[[:space:]]*[-[:digit:]]\{9,\}X\?\>' | \
        sed -e 's/^.*ISBN:\?[[:space:]]*//gi'                  \
            -e 's/[-]//g'                                      \
            -e '/^[[:space:]]*$/d'                           | \
