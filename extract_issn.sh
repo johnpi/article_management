@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# It extracts a ISBN string from a PDF article if it exists.
+# It extracts a ISSN string from a PDF article if it exists.
 
 . library_std.sh
 
@@ -12,27 +12,27 @@ File="${1}"
 
 # Pages to examine for doi strings
 first_page=1
-last_page=10
+last_page=1
 pages_num=$(pdfinfo "${File}" | grep Pages | awk '{print $2}')
-if [ "${pages_num}" -lt "${last_page}" ]; then
-  last_page="${pages_num}"
+if [ "${pages_num}" -gt "${last_page}" ]; then
+  last_page=2
 fi
 
 #isbn: 
 # Explanation:
 # 	pdftotext "${File}" - 
 # 	Will extract and print to the stdout (-) the text of the document considering the character encoding as being UTF8.
-isbn=$(pdftotext -f "${first_page}" -l "${last_page}" "${File}" -     | \
-       grep -izo '\<ISBN:\?[[:space:]]*[-[:digit:]]\{9,\}X\?' | \
-       sed -e 's/^.*ISBN:\?[[:space:]]*//gi'                  \
+issn=$(pdftotext -f "${first_page}" -l "${last_page}" "${File}" - | \
+       grep -izo '\<ISSN:\?[[:space:]]*[[:digit:]]\{4\}[-][[:digit:]]\{3\}[[:digit:]X]' | \
+       sed -e 's/^.*ISSN:\?[[:space:]]*//gi'                  \
            -e 's/[-]//g'                                      \
            -e '/^[[:space:]]*$/d'                           | \
        head -n 1)
 
-if [ "${#isbn}" -eq "10" ] || [ "${#isbn}" -eq "13" ]; then
-  echo "${isbn}"
+if [ "${#issn}" -eq "8" ]; then
+  echo "${issn}"
 else
-  echo "WARNING: An ISBN number couldn't be found in the file. Skipping ${File}" >&2
+  echo "WARNING: An ISSN number couldn't be found in the file. Skipping ${File}" >&2
   echo ""
 fi
 
